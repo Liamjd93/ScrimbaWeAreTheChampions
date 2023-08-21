@@ -1,6 +1,6 @@
 /* Firebase database integration start >>> */
 import {initializeApp} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
-import {getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
+import {getDatabase, ref, onValue, push} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
 
 const appSettings = {
     databaseURL: "https://scimba-watc-default-rtdb.europe-west1.firebasedatabase.app/"
@@ -33,11 +33,12 @@ const endorsementsContainer = document.getElementById("endorsements-container")
 
 /* Main code/functions start >>> */
 onValue(endorsementsInDB, function(snapshot) {
-    if (snapshot.val() == null) {
+    clearSomething("container", endorsementsContainer)
+    if (snapshot.val() == "") {
         endorsementsContainer.innerHTML += `<p id="no-endorsements">There are currently no endorsements.</p>`
         console.log(endorsementsContainer.innerHTML)
     }
-    clearSomething("container", endorsementsContainer)
+    console.log(snapshot.val())
     showEndorsements(snapshot)
 })
 
@@ -48,10 +49,8 @@ function clearSomething(category, thing) {
         console.log("this is a container that was cleared")
     }
     if (category == "input") {
-        thing.innerText = "TESTINGASODIFNAS"
-        console.log("this is an input that was cleared")
-        console.log(thing.innerText)
-        document.getElementById("main-message").innerText = ""
+        thing.value = ""
+    }
 }
 
 function showEndorsements(snapshot) {
@@ -60,12 +59,14 @@ function showEndorsements(snapshot) {
 
 publishBtn.addEventListener("click", function(){
     let post = new endorsementPost (message.value, from.value, to.value, 0)
-    console.log(post)
-    endorsementsContainer.innerHTML += `
+/*     endorsementsContainer.innerHTML += `
     <div class="endorsement">
-        <h6>${post.message}</h6>
-        <p>From: ${post.from}. To: ${post.to}. Likes: ${post.likes}</p>
-    </div>`
+    <h6>${post.message}</h6>
+    <p>From: ${post.from}. To: ${post.to}. Likes: ${post.likes}</p>
+    </div>` */
+    push(endorsementsInDB, post)
     clearSomething("input", message)
+    clearSomething("input", from)
+    clearSomething("input", to)
 })
 /* <<< Main code/functions end */
