@@ -37,13 +37,21 @@ onValue(endorsementsInDB, function(snapshot) {
         endorsementsContainer.innerHTML += `<p id="no-endorsements">There are currently no endorsements.</p>`
         console.log(endorsementsContainer.innerHTML)
     }
-    clearAll()
+    clearSomething("container", endorsementsContainer)
     showEndorsements(snapshot)
 })
 
-function clearAll() {
+function clearSomething(category, thing) {
     /* Make a function to clear away all endorsement posts */
-    endorsementsContainer.innerHTML = ""
+    if (category == "container") {
+        thing.innerHTML = ""
+        console.log("this is a container that was cleared")
+    }
+    if (category == "input") {
+        thing.innerText = "TESTINGASODIFNAS"
+        console.log("this is an input that was cleared")
+        console.log(thing.innerText)
+        document.getElementById("main-message").innerText = ""
 }
 
 function showEndorsements(snapshot) {
@@ -53,11 +61,11 @@ function showEndorsements(snapshot) {
 publishBtn.addEventListener("click", function(){
     let post = new endorsementPost (message.value, from.value, to.value, 0)
     console.log(post)
-    document.getElementById("no-endorsements").innerText = ""
     endorsementsContainer.innerHTML += `
     <div class="endorsement">
         <h6>${post.message}</h6>
         <p>From: ${post.from}. To: ${post.to}. Likes: ${post.likes}</p>
     </div>`
+    clearSomething("input", message)
 })
 /* <<< Main code/functions end */
