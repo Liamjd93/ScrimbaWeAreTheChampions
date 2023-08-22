@@ -20,6 +20,14 @@ h2 {
     margin: 19px 0px;
 }
 
+input, textarea {
+    color: white
+}
+
+input:focus, textarea:focus {
+    color: white;
+}
+
 #freddie {
     height: 90px;
     width: 90px;
@@ -58,4 +66,19 @@ h2 {
     border-radius: 8px;
     background: #444059;
     border: none;
+}
+
+.endorsement {
+    background-color: white;
+    color: black;
+    border-radius: 8px;
+    width: 250px;  
+    height: 125px;
+    position: relative;
+}
+
+.endorsement-content {
+    position: absolute;
+    bottom: 0px;
+    margin: 3, auto;
 }

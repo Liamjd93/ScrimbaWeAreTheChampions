@@ -28,22 +28,26 @@ const message = document.getElementById("main-message")
 const from = document.getElementById("from")
 const to = document.getElementById("to")
 const endorsementsContainer = document.getElementById("endorsements-container")
+let endorsementsArray = []
+let endorsementsArrayOrdered = []
 /* <<< Variable and constants end */
 
 
 /* Main code/functions start >>> */
 onValue(endorsementsInDB, function(snapshot) {
     clearSomething("container", endorsementsContainer)
+    endorsementsArray = (Object.values(snapshot.val()))
     if (snapshot.val() == "") {
         endorsementsContainer.innerHTML += `<p id="no-endorsements">There are currently no endorsements.</p>`
         console.log(endorsementsContainer.innerHTML)
     }
-    console.log(snapshot.val())
-    showEndorsements(snapshot)
+    for (let i = 0; i < endorsementsArray.length; i++) {
+        endorsementsArrayOrdered.unshift(endorsementsArray[i])
+    }
+    showEndorsements(endorsementsArrayOrdered)
 })
 
 function clearSomething(category, thing) {
-    /* Make a function to clear away all endorsement posts */
     if (category == "container") {
         thing.innerHTML = ""
         console.log("this is a container that was cleared")
@@ -53,17 +57,18 @@ function clearSomething(category, thing) {
     }
 }
 
-function showEndorsements(snapshot) {
-    /* Make a function to list all endorsements */
+function showEndorsements(posts) {
+    for (let i = 0; i < posts.length; i++) {
+        endorsementsContainer.innerHTML += `
+        <div class="endorsement">
+        <h4>${posts[i].message}</h6>
+        <p class="endorsement-content">From: ${posts[i].from}. To: ${posts[i].to}. Likes: ${posts[i].likes}</p>
+        </div>`
+    }
 }
 
 publishBtn.addEventListener("click", function(){
     let post = new endorsementPost (message.value, from.value, to.value, 0)
-/*     endorsementsContainer.innerHTML += `
-    <div class="endorsement">
-    <h6>${post.message}</h6>
-    <p>From: ${post.from}. To: ${post.to}. Likes: ${post.likes}</p>
-    </div>` */
     push(endorsementsInDB, post)
     clearSomething("input", message)
     clearSomething("input", from)
