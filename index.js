@@ -36,10 +36,9 @@ let endorsementsArrayOrdered = []
 /* Main code/functions start >>> */
 onValue(endorsementsInDB, function(snapshot) {
     clearSomething("container", endorsementsContainer)
-    endorsementsArray = (Object.values(snapshot.val()))
+    endorsementsArray = (Object.entries(snapshot.val()))
     if (snapshot.val() == "") {
         endorsementsContainer.innerHTML += `<p id="no-endorsements">There are currently no endorsements.</p>`
-        console.log(endorsementsContainer.innerHTML)
     }
     for (let i = 0; i < endorsementsArray.length; i++) {
         endorsementsArrayOrdered.unshift(endorsementsArray[i])
@@ -50,7 +49,6 @@ onValue(endorsementsInDB, function(snapshot) {
 function clearSomething(category, thing) {
     if (category == "container") {
         thing.innerHTML = ""
-        console.log("this is a container that was cleared")
     }
     if (category == "input") {
         thing.value = ""
@@ -59,11 +57,23 @@ function clearSomething(category, thing) {
 
 function showEndorsements(posts) {
     for (let i = 0; i < posts.length; i++) {
+        let heart = `<button id="heart" class="heart" value="${posts[i][0]}">♡</button>`
+        if (posts[i][1].likes != 0) {
+            heart = "♥"
+        }
         endorsementsContainer.innerHTML += `
         <div class="endorsement">
-        <h4>${posts[i].message}</h6>
-        <p class="endorsement-content">From: ${posts[i].from}. To: ${posts[i].to}. Likes: ${posts[i].likes}</p>
+        <h4 class="endorsement-content to">To: ${posts[i][1].to}</h4>
+        <p class="message">${posts[i][1].message}</p>
+        <h4 class="endorsement-content from">From: ${posts[i][1].from} ${heart} ${posts[i][1].likes}</h4>
         </div>`
+
+        console.log(posts[i][0])
+
+        let heartEl = document.getElementById("heart")
+        heartEl.addEventListener("click", function() {
+            console.log("clicked heart" + heartEl.value)
+        })
     }
 }
 

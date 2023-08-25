@@ -21,11 +21,16 @@ h2 {
 }
 
 input, textarea {
-    color: white
+    color: white;
+    text-align: center;
 }
 
 input:focus, textarea:focus {
     color: white;
+}
+
+textarea {
+    padding: 15px;
 }
 
 #freddie {
@@ -35,7 +40,7 @@ input:focus, textarea:focus {
 
 #main-message {
     width: 317px;
-    height: 118px;
+    height: 100px;
     border-radius: 8px;
     background: #444059;
     border: none;
@@ -72,13 +77,19 @@ input:focus, textarea:focus {
     background-color: white;
     color: black;
     border-radius: 8px;
-    width: 250px;  
-    height: 125px;
+    width: 275px;  
+/*     height: 125px; */
     position: relative;
+    text-align: left;
+padding: 0px 15px;
 }
 
-.endorsement-content {
-    position: absolute;
-    bottom: 0px;
-    margin: 3, auto;
+.heart {
+    border: none;
+    background-color: white;
+    text-align: right;
+}
+
+.message {
+    word-wrap: break-word;
 }
